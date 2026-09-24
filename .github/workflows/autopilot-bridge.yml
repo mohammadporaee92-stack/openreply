@@ -1,0 +1,21 @@
+name: Autopilot bridge tests
+
+on:
+  pull_request:
+    paths:
+      - 'app/api/integrations/autopilot/**'
+      - 'lib/integrations/autopilot.ts'
+      - '__tests__/autopilot-integration.test.ts'
+      - '.github/workflows/autopilot-bridge.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run __tests__/autopilot-integration.test.ts
